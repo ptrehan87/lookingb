@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Lookingbus</title>
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 300px;
+        bottom: 0;
+        width: 75%;
+      }
+    </style>
+        <div class="navbar navbar-white bg-white box-shadow">
+          <div class="container d-flex justify-content-between">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+              <img src="/static/img/LookingBusLogo.png"  width="200" height="42"></img>
+                <path
+                  d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+                ></path>
+                <circle cx="12" cy="13" r="4"></circle> 
+
+                
+  </head>
+  <body>
+    <style>
+      .marker {
+        display: block;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 0;
+      }
+    </style>
+   
+    <div id="map"></div>
+
+    <script>
+      mapboxgl.accessToken =
+        'pk.eyJ1IjoicHRyZWhhbjEiLCJhIjoiY2sweWVhbTIyMDBrZTNicTR4Ym5kdzdyZyJ9.oBbLN2IvYU4_BBHt0GdrTw';
+      var geojson = {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            properties: {
+              message: 'Bus 6014',
+              iconSize: [70, 70]
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-84.5012496450508, 42.734]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              message: 'Bus 600',
+              iconSize: [70, 70]
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-84.52223, 42.8]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              message: 'Bus 552',
+              iconSize: [70, 70]
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-84.29223632812499, 42.28151823530889]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              message: 'Bus 652',
+              iconSize: [70, 70]
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-84.5342242, 42.9]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              message: 'Bus 952',
+              iconSize: [70, 70]
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-84.5442242, 42.1]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              message: 'Bus 435',
+              iconSize: [70, 70]
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-84.5342242, 42.1]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              message: 'Bus 6123',
+              iconSize: [70, 70]
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-84.642242, 42.9]
+            }
+          },
+          {
+            type: 'Feature',
+            properties: {
+              message: 'Bus 3232',
+              iconSize: [70, 70]
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [-85.5342242, 42.9]
+            }
+          }
+        ]
+      };
+
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-84.017, 42.457],
+        zoom: 8
+      });
+
+      // add markers to map
+      geojson.features.forEach(function(marker) {
+        // create a DOM element for the marker
+        var el = document.createElement('div');
+        el.className = 'marker';
+        el.style.backgroundImage =
+          'url(https://img.icons8.com/pastel-glyph/64/000000/bus.png)';
+        el.style.width = marker.properties.iconSize[0] + 'px';
+        el.style.height = marker.properties.iconSize[1] + 'px';
+
+        el.addEventListener('click', function() {
+          window.alert(marker.properties.message);
+        });
+
+        // add marker to map
+        new mapboxgl.Marker(el)
+          .setLngLat(marker.geometry.coordinates)
+          .addTo(map);
+      });
+    </script>
+      <table class="table table-hover table-dark">
+        <thead>
+          <tr>
+            <th scope="col">BusID</th>
+            <th scope="col">Route</th>
+            <th scope="col">Trip</th>
+            <th scope="col">Block</th>
+            <th scope="col">Bearing</th>
+            <th scope="col">Headsign</th>
+            <th scope="col">Speed</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for bus in busdb%}
+                <tr>
+                    <th>{{bus.id}}</th>
+                    <th>{{bus.route}}</th>
+                    <th>{{bus.trip}}</th>
+                    <th>{{bus.block}}</th>
+                    <th>{{bus.bearing}}</th>
+                    <th>{{bus.headsign}}</th>
+                    <th>{{bus.speed}}</th>
+                </tr>
+            {% endfor %}
+         
+        </tbody>
+      </table>
+
+  </body>
+</html>
